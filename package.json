@@ -1,0 +1,46 @@
+{
+  "name": "autodo-list",
+  "version": "1.0.0",
+  "description": "An Electron application with Vue",
+  "author": "example.com",
+  "homepage": "https://electron-vite.org",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "postinstall": "electron-builder install-app-deps",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "npm run build && electron-builder --mac",
+    "build:linux": "npm run build && electron-builder --linux",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^4.0.0",
+    "@quasar/extras": "^1.16.17",
+    "@quasar/vite-plugin": "^1.9.0",
+    "electron-updater": "^6.3.9",
+    "quasar": "^2.18.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.13.2",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "electron": "^35.1.5",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.1.0",
+    "eslint": "^9.27.0",
+    "sass": "^1.89.0",
+    "unocss": "^66.1.2",
+    "vite": "^6.2.6",
+    "vue": "^3.5.13"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild"
+    ]
+  }
+}

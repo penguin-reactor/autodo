@@ -1,0 +1,24 @@
+import { Quasar } from 'quasar'
+
+import quasarLang from 'quasar/lang/zh-CN'
+import { createApp } from 'vue'
+import App from './App.vue'
+import './assets/main.css'
+import '@quasar/extras/material-icons/material-icons.css'
+import 'quasar/src/css/index.sass'
+import 'virtual:uno.css'
+
+const app = createApp(App)
+app.use(Quasar, {
+  lang: quasarLang,
+  plugins: {},
+  config: {
+    brand: {
+      primary: '#1976d2',
+      secondary: '#26A69A',
+      accent: '#9C27B0',
+    },
+  },
+})
+
+app.mount('#app')
