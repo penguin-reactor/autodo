@@ -1,13 +1,16 @@
-@import './base.css';
+/* @import './base.css'; */
+@import './light.css';
+@import './dark.css';
 
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* background-image: url('./wavy-lines.svg'); */
   background-size: cover;
   user-select: none;
+  color: var(--text-primary);
+  background: var(--bg-color-page);
 }
 
 code {
@@ -139,6 +142,7 @@ code {
   font-size: 14px;
   line-height: 14px;
   opacity: 0.8;
+
   &:last-child {
     border: none;
   }
@@ -157,6 +161,7 @@ code {
 }
 
 @media (max-width: 350px) {
+
   .tip,
   .actions {
     display: none;
