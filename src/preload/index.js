@@ -24,9 +24,21 @@ const windowAPI = {
   minimize() {
     BrowserWindow.getFocusedWindow().minimize()
   },
+  toggleMaximize() {
+    const win = BrowserWindow.getFocusedWindow()
+
+    if (win.isMaximized()) {
+      win.unmaximize()
+    }
+    else {
+      win.maximize()
+    }
+  },
   close() {
     BrowserWindow.getFocusedWindow().close()
   },
+  isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
+  onWindowMaximized: (callback) => ipcRenderer.on('window-maximized', (_event, isMaximized) => callback(isMaximized))
 }
 
 // 注意：实际文件存储操作在主进程中实现

@@ -28,6 +28,13 @@ function createWindow() {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
+  mainWindow.on('maximize', () => {
+    mainWindow.webContents.send('window-maximized', true)
+  })
+
+  mainWindow.on('unmaximize', () => {
+    mainWindow.webContents.send('window-maximized', false)
+  })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
@@ -114,6 +121,12 @@ app.whenReady().then(() => {
       }
       throw error
     }
+  })
+
+  // 是否全屏
+  ipcMain.handle('is-window-maximized', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender)
+    return win?.isMaximized() || false
   })
 
   createWindow()

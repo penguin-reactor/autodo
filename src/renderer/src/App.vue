@@ -1,6 +1,6 @@
 <script setup>
 import { useQuasar } from 'quasar'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import MingcuteListCheck3Fill from '~icons/mingcute/list-check-3-fill'
 import MingcuteListCheck3Line from '~icons/mingcute/list-check-3-line'
 import MingcuteSettings3Fill from '~icons/mingcute/settings-3-fill'
@@ -18,11 +18,28 @@ function minimize() {
 }
 
 /**
+ * 启用/取消最大化
+ */
+function toggleMaximize() {
+  window.windowAPI.toggleMaximize()
+}
+
+/**
  * 点击关闭
  */
 function closeApp() {
   window.windowAPI.close()
 }
+
+// 是否全屏
+const isMaximized = ref(false);
+onMounted(async () => {
+  isMaximized.value = await window.windowAPI.isWindowMaximized()
+
+  window.windowAPI.onWindowMaximized((status) => {
+    isMaximized.value = status
+  })
+})
 </script>
 
 <template>
@@ -33,6 +50,7 @@ function closeApp() {
       </div>
       <q-space />
       <q-btn dense flat icon="minimize" @click="minimize" />
+      <q-btn dense flat :icon="isMaximized ? 'fullscreen_exit': 'fullscreen'" @click="toggleMaximize" />
       <q-btn dense flat icon="close" @click="closeApp" />
     </q-bar>
 
