@@ -32,7 +32,7 @@ function closeApp() {
 }
 
 // 是否全屏
-const isMaximized = ref(false);
+const isMaximized = ref(false)
 onMounted(async () => {
   isMaximized.value = await window.windowAPI.isWindowMaximized()
 
@@ -44,48 +44,50 @@ onMounted(async () => {
 
 <template>
   <div class="app">
-    <q-bar class="q-electron-drag">
+    <q-bar class="q-electron-drag head-bar">
       <div class="text-18px">
         AUTODO
       </div>
       <q-space />
       <q-btn dense flat icon="minimize" @click="minimize" />
-      <q-btn dense flat :icon="isMaximized ? 'fullscreen_exit': 'fullscreen'" @click="toggleMaximize" />
+      <q-btn dense flat :icon="isMaximized ? 'fullscreen_exit' : 'fullscreen'" @click="toggleMaximize" />
       <q-btn dense flat icon="close" @click="closeApp" />
     </q-bar>
 
     <!-- 左右分栏布局 -->
-    <q-splitter v-model="splitterModel" style="height: calc(100vh - 30px)">
-      <!-- 左侧菜单 -->
+    <!-- <q-splitter v-model="splitterModel" style="height: calc(100vh - 30px)" unit="px" :limits="[80, 160]" disable :separator-style="{ background: 'transparent' }">
       <template #before>
-        <q-tabs v-model="tab" vertical class="text-teal">
-          <q-tab name="todo">
-            <div class="flex flex-col items-center justify-center gap-3px h-60px">
-              <component :is="tab === 'todo' ? MingcuteListCheck3Fill : MingcuteListCheck3Line" class="text-20px" />
-              <span class="text-14px">待办</span>
-            </div>
-          </q-tab>
-          <q-tab name="config">
-            <div class="flex flex-col items-center justify-center gap-3px h-60px">
-              <component :is="tab === 'config' ? MingcuteSettings3Fill : MingcuteSettings3Line" class="text-20px" />
-              <span class="text-14px">配置</span>
-            </div>
-          </q-tab>
-        </q-tabs>
       </template>
 
-      <!-- 右侧内容 -->
       <template #after>
-        <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
-          <q-tab-panel name="todo">
-            <Todolist />
-          </q-tab-panel>
-          <q-tab-panel name="config">
-            <Config />
-          </q-tab-panel>
-        </q-tab-panels>
       </template>
-    </q-splitter>
+    </q-splitter> -->
+    <div class="main-panel">
+      <!-- 左侧菜单 -->
+      <q-tabs v-model="tab" vertical class="left-menu" active-color="primary">
+        <q-tab name="todo">
+          <div class="flex flex-col items-center justify-center gap-3px h-60px">
+            <component :is="tab === 'todo' ? MingcuteListCheck3Fill : MingcuteListCheck3Line" class="text-20px" />
+            <span class="text-14px">待办</span>
+          </div>
+        </q-tab>
+        <q-tab name="config">
+          <div class="flex flex-col items-center justify-center gap-3px h-60px">
+            <component :is="tab === 'config' ? MingcuteSettings3Fill : MingcuteSettings3Line" class="text-20px" />
+            <span class="text-14px">配置</span>
+          </div>
+        </q-tab>
+      </q-tabs>
+      <!-- 右侧内容 -->
+      <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up" class="right-panel">
+        <q-tab-panel name="todo">
+          <Todolist />
+        </q-tab-panel>
+        <q-tab-panel name="config">
+          <Config />
+        </q-tab-panel>
+      </q-tab-panels>
+    </div>
   </div>
 </template>
 
@@ -97,16 +99,22 @@ onMounted(async () => {
   flex-direction: column;
 }
 
-/* 分割线样式 */
-.q-splitter__separator {
-  background: #e0e0e0;
-  width: 1px;
+.head-bar {
+  width: 100%;
+  flex: none;
+  background: var(--bg-color-page);
 }
 
-/* 菜单项激活样式 */
-.q-item--active {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  font-weight: 500;
+.main-panel {
+  flex: auto;
+  display: flex;
+}
+.left-menu {
+  flex: none;
+  width: 80px;
+}
+.right-panel {
+  flex: auto;
+  background: var(--bg-color-container);
 }
 </style>
