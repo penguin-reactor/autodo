@@ -1,25 +1,29 @@
 /* eslint-disable node/prefer-global/process */
 import { join } from 'node:path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import { enable, initialize } from '@electron/remote/main' // <-- a添加这个
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
-import icon from '../../resources/icon.png?asset'
+// import icon from '../../resources/icon.png?asset'
+
+initialize() // <-- 添加这个
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 350,
-    resizable: false,
+    width: 750,
     height: 650,
+    // resizable: false,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    frame: false,
+    // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
+      preload: join(__dirname, '../preload/index.js'),
     },
   })
 
-  mainWindow.setBackgroundColor('#2e2c29') // 设置窗口背景颜色
+  // mainWindow.setBackgroundColor('#2e2c29') // 设置窗口背景颜色
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -29,6 +33,8 @@ function createWindow() {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+
+  enable(mainWindow.webContents) // <-- 添加这个
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
@@ -58,15 +64,20 @@ app.whenReady().then(() => {
   const fs = require('node:fs')
   const path = require('node:path')
 
-  // 获取存储路径
-  const getStoragePath = () => {
+  // 获取待办事项存储路径
+  const getTodosPath = () => {
     return path.join(app.getPath('userData'), 'todos.json')
+  }
+
+  // 获取主题偏好存储路径
+  const getThemePath = () => {
+    return path.join(app.getPath('userData'), 'theme-preference.json')
   }
 
   // 加载待办事项
   ipcMain.handle('load-todos', async () => {
     try {
-      const filePath = getStoragePath()
+      const filePath = getTodosPath()
       const data = await fs.promises.readFile(filePath, 'utf-8')
       return JSON.parse(data)
     }
@@ -80,11 +91,30 @@ app.whenReady().then(() => {
 
   // 保存待办事项
   ipcMain.handle('save-todos', async (_, todos) => {
-    const filePath = getStoragePath()
+    const filePath = getTodosPath()
     await fs.promises.writeFile(filePath, JSON.stringify(todos, null, 2))
   })
 
-  // ipcMain.on('ping', () => console.log('pong'))
+  // 保存主题偏好
+  ipcMain.handle('save-theme-preference', async (_, darkMode) => {
+    const filePath = getThemePath()
+    await fs.promises.writeFile(filePath, JSON.stringify({ darkMode }))
+  })
+
+  // 加载主题偏好
+  ipcMain.handle('load-theme-preference', async () => {
+    try {
+      const filePath = getThemePath()
+      const data = await fs.promises.readFile(filePath, 'utf-8')
+      return JSON.parse(data).darkMode
+    }
+    catch (error) {
+      if (error.code === 'ENOENT') {
+        return false // 文件不存在时返回默认值
+      }
+      throw error
+    }
+  })
 
   createWindow()
 
