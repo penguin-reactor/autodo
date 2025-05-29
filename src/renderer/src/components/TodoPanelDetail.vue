@@ -10,7 +10,6 @@ const emit = defineEmits(['update'])
 const formData = ref({
   text: '',
   note: '',
-  startTime: '',
   endTime: '',
 })
 
@@ -19,7 +18,6 @@ watch(() => _props.todo, (newTodo) => {
     formData.value = {
       text: newTodo.text || '',
       note: newTodo.note || '',
-      startTime: newTodo.startTime || '',
       endTime: newTodo.endTime || '',
     }
   }
@@ -42,45 +40,30 @@ function handleUpdate() {
       <q-input
         v-model="formData.text"
         label="任务名称"
-        outlined
-        dense
+        filled
         :rules="[val => !!val || '任务名称不能为空']"
       />
 
       <q-input
         v-model="formData.note"
         label="任务备注"
-        outlined
-        dense
+        filled
         type="textarea"
         rows="3"
       />
 
-      <div class="row q-gutter-sm">
-        <q-input
-          v-model="formData.startTime"
-          label="开始时间"
-          outlined
-          dense
-          class="col"
-          type="datetime-local"
-        />
-        <q-input
-          v-model="formData.endTime"
-          label="结束时间"
-          outlined
-          dense
-          class="col"
-          type="datetime-local"
-        />
-      </div>
+      <q-input
+        v-model="formData.endTime"
+        label="结束时间"
+        filled
+        type="date"
+      />
 
-      <div class="q-mt-lg">
+      <div class="w-full">
         <q-btn
           color="primary"
           label="保存修改"
           type="submit"
-          class="full-width"
         />
       </div>
     </q-form>

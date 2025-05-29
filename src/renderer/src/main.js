@@ -1,4 +1,4 @@
-import { Quasar } from 'quasar'
+import { Notify, Quasar } from 'quasar'
 
 import quasarLang from 'quasar/lang/zh-CN'
 import { createApp } from 'vue'
@@ -12,7 +12,9 @@ import 'virtual:uno.css'
 const app = createApp(App)
 app.use(Quasar, {
   lang: quasarLang,
-  plugins: {},
+  plugins: {
+    Notify,
+  },
   config: {
     brand: {
       primary: '#0052d9',

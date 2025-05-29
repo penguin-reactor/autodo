@@ -1,10 +1,13 @@
 <script setup>
+import { v4 as uuidv4 } from 'uuid'
 import { onMounted, ref, toRaw, watch } from 'vue'
-import TodoDetail from './TodoDetail.vue'
+import TodoPanelDetail from './TodoPanelDetail.vue'
+import TodoPanelList from './TodoPanelList.vue'
+import dayjs from 'dayjs'
 
 const todos = ref([])
 const selectedTodo = ref(null)
-const splitterModel = ref(300) // 默认分割位置
+const splitterModel = ref(40) // 默认分割位置
 
 // 加载待办事项
 async function loadTodos() {
@@ -28,11 +31,11 @@ async function saveTodos() {
 function addTodo(text) {
   if (text.trim()) {
     const newTodo = {
-      id: Date.now(),
+      id: uuidv4(),
       text: text.trim(),
       completed: false,
       note: '',
-      startTime: '',
+      createTime: dayjs().format('YYYY-MM-DD'),
       endTime: '',
     }
     todos.value.push(newTodo)
@@ -78,32 +81,22 @@ onMounted(() => {
 watch(todos, () => {
   saveTodos()
 }, { deep: true })
+
+defineExpose({
+  loadTodos
+})
 </script>
 
 <template>
   <div class="todo-panel full-height">
-    <q-splitter
-      v-model="splitterModel"
-      unit="px"
-      :limits="[100, 500]"
-      class="h-full"
-    >
+    <q-splitter v-model="splitterModel" :limits="[40, 80]" class="h-full">
       <template #before>
-        <!-- <TodoList
-          :todos="todos"
-          :selected-todo="selectedTodo"
-          @select="selectTodo"
-          @remove="removeTodo"
-          @toggle="toggleComplete"
-          @add="addTodo"
-        /> -->
+        <TodoPanelList :todos="todos" :selected-todo="selectedTodo" @select="selectTodo" @remove="removeTodo"
+          @toggle="toggleComplete" @add="addTodo" />
       </template>
 
       <template #after>
-        <TodoDetail
-          :todo="selectedTodo"
-          @update="updateTodo"
-        />
+        <TodoPanelDetail :todo="selectedTodo" @update="updateTodo" />
       </template>
     </q-splitter>
   </div>
