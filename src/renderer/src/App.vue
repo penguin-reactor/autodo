@@ -6,9 +6,8 @@ import MingcuteListCheck3Line from '~icons/mingcute/list-check-3-line'
 import MingcuteSettings3Fill from '~icons/mingcute/settings-3-fill'
 import MingcuteSettings3Line from '~icons/mingcute/settings-3-line'
 import Config from './components/Config.vue'
-import Todolist from './components/Todolist.vue'
+import TodoPanel from './components/TodoPanel.vue'
 
-const splitterModel = ref(20) // 初始分割比例
 const tab = ref('todo')
 /**
  * 点击最小化
@@ -54,17 +53,9 @@ onMounted(async () => {
       <q-btn dense flat icon="close" @click="closeApp" />
     </q-bar>
 
-    <!-- 左右分栏布局 -->
-    <!-- <q-splitter v-model="splitterModel" style="height: calc(100vh - 30px)" unit="px" :limits="[80, 160]" disable :separator-style="{ background: 'transparent' }">
-      <template #before>
-      </template>
-
-      <template #after>
-      </template>
-    </q-splitter> -->
     <div class="main-panel">
       <!-- 左侧菜单 -->
-      <q-tabs v-model="tab" vertical class="left-menu" active-color="primary">
+      <q-tabs v-model="tab" vertical class="left-menu" active-color="primary" switch-indicator>
         <q-tab name="todo">
           <div class="flex flex-col items-center justify-center gap-3px h-60px">
             <component :is="tab === 'todo' ? MingcuteListCheck3Fill : MingcuteListCheck3Line" class="text-20px" />
@@ -81,7 +72,7 @@ onMounted(async () => {
       <!-- 右侧内容 -->
       <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up" class="right-panel">
         <q-tab-panel name="todo">
-          <Todolist />
+          <TodoPanel />
         </q-tab-panel>
         <q-tab-panel name="config">
           <Config />
@@ -108,6 +99,8 @@ onMounted(async () => {
 .main-panel {
   flex: auto;
   display: flex;
+  /* gap: 5px; */
+  padding-left: 1px;
 }
 .left-menu {
   flex: none;
@@ -116,5 +109,10 @@ onMounted(async () => {
 .right-panel {
   flex: auto;
   background: var(--bg-color-container);
+  border-radius: 8px 0 0 0;
+  overflow: hidden;
+}
+:deep(.right-panel .q-tab-panel) {
+  padding: 0;
 }
 </style>
