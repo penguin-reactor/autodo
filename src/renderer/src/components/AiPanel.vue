@@ -32,7 +32,7 @@ async function analyzeTask() {
     $q.notify({ type: 'negative', message: '请输入任务描述' })
     return
   }
-  if (!deepseekKey.value.trim()) {
+  if (!String(deepseekKey.value ?? '').trim()) {
     $q.notify({ type: 'negative', message: '未设置 deepseek key，请前往“配置”进行设置' })
     return
   }
@@ -55,7 +55,6 @@ async function analyzeTask() {
   ]
 }
 3. 字段约束：
-   - steps: 数组最大长度为10
    - text: 最大30字符
    - completed: 初始false
    - endTime: 年-月-日 格式字符串

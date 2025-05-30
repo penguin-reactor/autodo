@@ -37,7 +37,7 @@ function handleAdd() {
       <q-item
         v-for="todo in todos"
         :key="todo.id"
-        :class="{ 'bg-blue-1': todo.id === selectedTodo?.id }"
+        :class="{ active: todo.id === selectedTodo?.id }"
         clickable
         @click="$emit('select', todo)"
       >
@@ -93,6 +93,10 @@ function handleAdd() {
 .q-list {
   flex: 1;
   overflow-y: auto;
+}
+
+.active {
+  background: var(--brand-main-focus);
 }
 
 .fixed-bottom-input {

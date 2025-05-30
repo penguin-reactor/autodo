@@ -1,16 +1,16 @@
 {
-  "name": "autodo-list",
+  "name": "autodo",
   "version": "1.0.0",
   "description": "An Electron application with Vue",
   "author": "企鹅反应堆",
   "license": "MIT",
-  "homepage": "https://github.com/penguin-reactor/autodo-list#readme",
+  "homepage": "https://github.com/penguin-reactor/autodo#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/penguin-reactor/autodo-list.git"
+    "url": "https://github.com/penguin-reactor/autodo.git"
   },
   "bugs": {
-    "url": "https://github.com/penguin-reactor/autodo-list/issues"
+    "url": "https://github.com/penguin-reactor/autodo/issues"
   },
   "keywords": [
     "electron",
