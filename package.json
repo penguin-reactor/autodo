@@ -2,8 +2,22 @@
   "name": "autodo-list",
   "version": "1.0.0",
   "description": "An Electron application with Vue",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "企鹅反应堆",
+  "license": "MIT",
+  "homepage": "https://github.com/penguin-reactor/autodo-list#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/penguin-reactor/autodo-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/penguin-reactor/autodo-list/issues"
+  },
+  "keywords": [
+    "electron",
+    "vue",
+    "todo",
+    "desktop-app"
+  ],
   "main": "./out/main/index.js",
   "scripts": {
     "start": "electron-vite preview",
@@ -16,6 +30,20 @@
     "build:linux": "npm run build && electron-builder --linux",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
+  },
+  "build": {
+    "appId": "com.example.autodo",
+    "productName": "AUTODO",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  },
+  "nsis": {
+    "allowToChangeInstallationDirectory": true,
+    "oneClick": false,
+    "perMachine": true,
+    "allowElevation": true
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
