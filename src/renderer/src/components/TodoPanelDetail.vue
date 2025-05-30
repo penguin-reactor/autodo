@@ -1,4 +1,5 @@
 <script setup>
+import { useQuasar } from 'quasar'
 import { defineEmits, defineProps, ref, watch } from 'vue'
 
 const _props = defineProps({
@@ -6,6 +7,8 @@ const _props = defineProps({
 })
 
 const emit = defineEmits(['update'])
+
+const $q = useQuasar()
 
 const formData = ref({
   text: '',
@@ -30,6 +33,7 @@ function handleUpdate() {
       ...formData.value,
     }
     emit('update', updatedTodo)
+    $q.notify({ type: 'positive', message: '保存成功!' })
   }
 }
 </script>
@@ -70,7 +74,7 @@ function handleUpdate() {
   </div>
 
   <div v-else class="text-center q-pa-lg text-grey">
-    请从左侧选择一个任务进行编辑
+    请从左侧选择一个任务
   </div>
 </template>
 

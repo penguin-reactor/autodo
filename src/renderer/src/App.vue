@@ -52,8 +52,8 @@ onMounted(async () => {
 function handleAiSuccess() {
   tab.value = 'todo'
   nextTick(() => {
-    todoPanelRef.value?.loadTodos();
-  });
+    todoPanelRef.value?.loadTodos()
+  })
 }
 </script>
 
@@ -92,8 +92,10 @@ function handleAiSuccess() {
         </q-tab>
       </q-tabs>
       <!-- 右侧内容 -->
-      <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up"
-        class="right-panel">
+      <q-tab-panels
+        v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up"
+        class="right-panel"
+      >
         <q-tab-panel name="todo">
           <TodoPanel ref="todoPanelRef" />
         </q-tab-panel>
@@ -120,13 +122,14 @@ function handleAiSuccess() {
   width: 100%;
   flex: none;
   background: var(--bg-color-page);
+  height: var(--header-height);
 }
 
 .main-panel {
   flex: auto;
   display: flex;
-  /* gap: 5px; */
   padding-left: 1px;
+  min-height: 0;
 }
 
 .left-menu {

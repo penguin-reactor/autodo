@@ -122,7 +122,7 @@ onMounted(() => {
         <!-- 编辑状态显示 -->
         <div v-else class="flex flex-col gap-10px w-full">
           <div class="flex items-center gap-10px w-full justify-between">
-            <q-input v-model="deepseekKey" label="DeepSeek API Key" type="password" />
+            <q-input v-model="deepseekKey" label="DeepSeek API Key" type="password" class="flex-auto" />
             <div class="row q-gutter-sm q-mt-sm">
               <q-btn label="测试" color="positive" :loading="isLoading" @click="testDeepseekKey" />
               <q-btn label="保存" color="primary" @click="saveDeepseekKey" />

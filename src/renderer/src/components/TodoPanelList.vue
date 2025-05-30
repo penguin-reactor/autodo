@@ -30,6 +30,9 @@ function handleAdd() {
 <template>
   <div class="todo-panel-list">
     <!-- 待办列表 -->
+    <div v-if="todos.length === 0" class="text-center q-pa-lg text-grey">
+      暂无待办事项
+    </div>
     <q-list separator>
       <q-item
         v-for="todo in todos"
@@ -84,14 +87,16 @@ function handleAdd() {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
 }
 
 .q-list {
-  flex-grow: 1;
+  flex: 1;
   overflow-y: auto;
 }
 
 .fixed-bottom-input {
+  flex: none;
   padding: 15px;
   background: var(--bg-color-container);
 }

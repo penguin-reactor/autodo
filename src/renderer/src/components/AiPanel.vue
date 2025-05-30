@@ -1,11 +1,11 @@
 <script setup>
+import dayjs from 'dayjs'
 import { useQuasar } from 'quasar'
 import { v4 as uuidv4 } from 'uuid'
 import { onMounted, ref } from 'vue'
 import FluentColorBotSparkle16 from '~icons/fluent-color/bot-sparkle-16'
-import dayjs from 'dayjs'
 
-const emits = defineEmits(["success"]);
+const emits = defineEmits(['success'])
 
 const $q = useQuasar()
 const deepseekKey = ref('')
@@ -19,17 +19,21 @@ const isLoading = ref(false)
 function parseMarkdownJson(str) {
   // 使用正则移除 ```json 开头和 ``` 结尾
   const jsonStr = str
-    .replace(/^```json\s*/, '')  // 移除开头的 ```json 和空白
-    .replace(/\s*```$/, '');     // 移除结尾的 ``` 和空白
+    .replace(/^```json\s*/, '') // 移除开头的 ```json 和空白
+    .replace(/\s*```$/, '') // 移除结尾的 ``` 和空白
 
   // 2. 解析为 JavaScript 对象
-  return JSON.parse(jsonStr);
+  return JSON.parse(jsonStr)
 }
 
 // 调用DeepSeek API分析任务
 async function analyzeTask() {
   if (!taskDescription.value.trim()) {
     $q.notify({ type: 'negative', message: '请输入任务描述' })
+    return
+  }
+  if (!deepseekKey.value.trim()) {
+    $q.notify({ type: 'negative', message: '未设置 deepseek key，请前往“配置”进行设置' })
     return
   }
 
@@ -58,7 +62,7 @@ async function analyzeTask() {
 4. 禁止行为：
    - 不要包含任何非JSON内容
    - 不要省略或添加字段
-`;
+`
 
   try {
     // 使用DeepSeek官方会话接口
@@ -142,7 +146,6 @@ async function saveTasks(tasks) {
 
     // 合并新任务
     const allTasks = [...existingTasks, ...tasks]
-    console.log(allTasks, tasks)
 
     // 保存更新后的任务列表
     await window.api.saveTodos(allTasks)

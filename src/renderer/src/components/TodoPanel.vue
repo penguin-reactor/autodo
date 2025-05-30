@@ -1,9 +1,9 @@
 <script setup>
+import dayjs from 'dayjs'
 import { v4 as uuidv4 } from 'uuid'
 import { onMounted, ref, toRaw, watch } from 'vue'
 import TodoPanelDetail from './TodoPanelDetail.vue'
 import TodoPanelList from './TodoPanelList.vue'
-import dayjs from 'dayjs'
 
 const todos = ref([])
 const selectedTodo = ref(null)
@@ -12,6 +12,7 @@ const splitterModel = ref(40) // 默认分割位置
 // 加载待办事项
 async function loadTodos() {
   const loadedTodos = await window.api.loadTodos()
+  console.log(loadedTodos)
   // 确保每个任务都有扩展字段
   todos.value = loadedTodos.map(todo => ({
     ...todo,
@@ -83,7 +84,7 @@ watch(todos, () => {
 }, { deep: true })
 
 defineExpose({
-  loadTodos
+  loadTodos,
 })
 </script>
 
@@ -91,8 +92,10 @@ defineExpose({
   <div class="todo-panel full-height">
     <q-splitter v-model="splitterModel" :limits="[40, 80]" class="h-full">
       <template #before>
-        <TodoPanelList :todos="todos" :selected-todo="selectedTodo" @select="selectTodo" @remove="removeTodo"
-          @toggle="toggleComplete" @add="addTodo" />
+        <TodoPanelList
+          :todos="todos" :selected-todo="selectedTodo" @select="selectTodo" @remove="removeTodo"
+          @toggle="toggleComplete" @add="addTodo"
+        />
       </template>
 
       <template #after>
